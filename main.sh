@@ -8,46 +8,48 @@
 
 LOG_FILE="report.log"
 ISO_TARIH=$(date -Iseconds)
-echo "Başlangıç Zamanı: $ISO_TARIH" > $LOG_FILE
+echo "Baslangic Zamani: $ISO_TARIH" > $LOG_FILE
 
 echo "" >> $LOG_FILE
-echo "Donanım bilgisi" >> $LOG_FILE
+echo "DONANIM BILGILERI" >> $LOG_FILE
 
-echo "CPU" >> $LOG_FILE
-wmic.exe cpu get name >> $LOG_FILE
+echo "[ CPU ]" >> $LOG_FILE
+wmic cpu get name >> $LOG_FILE
 
-echo "RAM" >> $LOG_FILE
-wmic.exe memorychip get capacity >> $LOG_FILE
+echo "[ RAM ]" >> $LOG_FILE
+wmic memorychip get capacity >> $LOG_FILE
 
-echo "ANAKART" >> $LOG_FILE
-wmic.exe baseboard get product,Manufacturer >> $LOG_FILE
+echo "[ ANAKART ]" >> $LOG_FILE
+wmic baseboard get product,Manufacturer >> $LOG_FILE
 
-echo "Disk Sistem UUID" >> $LOG_FILE
-wmic.exe csproduct get uuid >> $LOG_FILE
+echo "[ Disk Sistem UUID ]" >> $LOG_FILE
+wmic csproduct get uuid >> $LOG_FILE
 
-echo "MAC Adresi" >> $LOG_FILE
+echo "[ MAC Adresi ]" >> $LOG_FILE
 getmac >> $LOG_FILE
 
-echo "Donanım bilgileri yüklendi"
+echo "Donanim bilgileri rapora eklendi"
 
 echo ""
-echo "Guvenlı Gırıs"
-read -s -p "Proje parolası girin (MYO+202): " PAROLA
+echo "GIRIS"
+read -s -p "Proje parolasi girin: " PAROLA
 echo ""
+
 if [ "$PAROLA" == "MYO+202" ]; then
-echo "PAROLA onaylandi"
+echo "PAROLA onaylandi."
+echo "Rapor dosyasi AES256 sifreleniyor"
+    
+gpg --batch --yes --passphrase "$PAROLA" --symmetric --cipher-algo AES256 -o report.log.gpg report.log
+    
+if [ -f "report.log.gpg" ]; then
+echo "Sifreleme yapildi. loglar siliniyor"
+rm -f report.log
+echo "MYO202-BASH-PROJECT islemler tamamlandi."
 else
-echo "Hata:Yanlış parola girdiniz kapatılıyor"
+echo "Sifreleme basarisiz oldu"
 exit 1
 fi
-
-echo "Rapor dosyası AES256 ile şifreleniyor"
-gpg --batch --yes --passphrase "$PAROLA" --symmetric --cipher-algo AES256 -o report.log.gpg report.log
-if [ -f "report.log.gpg" ]; then
-echo "Şifreleme yapıldı Orjinal güvensiz loglar siliniyo"
-rm -f report.log
-echo "MYO202-BASH-PROJECT işlemler tamamlandı"
 else
-echo "Şifreleme işlemi başarısız oldu"
+echo "Yanlis parola girdiniz kapatiliyor"
 exit 1
 fi
