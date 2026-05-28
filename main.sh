@@ -41,3 +41,13 @@ echo "Hata:Yanlış parola girdiniz kapatılıyor"
 exit 1
 fi
 
+echo "Rapor dosyası AES256 ile şifreleniyor"
+gpg --batch --yes --passphrase "$PAROLA" --symmetric --cipher-algo AES256 -o report.log.gpg report.log
+if [-f"report.log.gp]; then
+echo "Şifreleme yapıldı Orjinal güvensiz loglar siliniyo"
+rm -f report.log
+echo "MYO202-BASH-PROJECT işlemler tamamlandı"
+else
+echo "Şifreleme işlemi başarısız oldu"
+exit 1
+fi
