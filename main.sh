@@ -6,8 +6,8 @@
 # Sertifika 2: https://credsverse.com/credentials/abcac5ea-b99d-4618-999f-c1e93f828b09
 # Sertifika 3: https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=qKrhe9a4xw
 
-LOG_FİLE="report.log"
-İSO_TARİH=$(date -Iseconds)
+LOG_FILE="report.log"
+ISO_TARIH=$(date -Iseconds)
 echo "Başlangıç Zamanı: $ISO_TARIH" > $LOG_FILE
 
 echo "" >> $LOG_FILE
@@ -25,7 +25,7 @@ wmic baseboard get product,Manufacturer >> $LOG_FILE
 echo "Disk Sistem UUID" >> $LOG_FILE
 wmic csproduct get uuid >> $LOG_FILE
 
-ECHO "MAC Adresi" >> $LOG_FILE
+echo "MAC Adresi" >> $LOG_FILE
 getmac >> $LOG_FILE
 
 echo "Donanım bilgileri yüklendi"
@@ -43,7 +43,7 @@ fi
 
 echo "Rapor dosyası AES256 ile şifreleniyor"
 gpg --batch --yes --passphrase "$PAROLA" --symmetric --cipher-algo AES256 -o report.log.gpg report.log
-if [-f"report.log.gp]; then
+if [-f "report.log.gpg" ]; then
 echo "Şifreleme yapıldı Orjinal güvensiz loglar siliniyo"
 rm -f report.log
 echo "MYO202-BASH-PROJECT işlemler tamamlandı"
