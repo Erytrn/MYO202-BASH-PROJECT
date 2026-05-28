@@ -14,16 +14,16 @@ echo "" >> $LOG_FILE
 echo "Donanım bilgisi" >> $LOG_FILE
 
 echo "CPU" >> $LOG_FILE
-wmic cpu get name >> $LOG_FILE
+wmic.exe cpu get name >> $LOG_FILE
 
 echo "RAM" >> $LOG_FILE
-wmic memorychip get capacity >> $LOG_FILE
+wmic.exe memorychip get capacity >> $LOG_FILE
 
 echo "ANAKART" >> $LOG_FILE
-wmic baseboard get product,Manufacturer >> $LOG_FILE
+wmic.exe baseboard get product,Manufacturer >> $LOG_FILE
 
 echo "Disk Sistem UUID" >> $LOG_FILE
-wmic csproduct get uuid >> $LOG_FILE
+wmic.exe csproduct get uuid >> $LOG_FILE
 
 echo "MAC Adresi" >> $LOG_FILE
 getmac >> $LOG_FILE
@@ -32,10 +32,10 @@ echo "Donanım bilgileri yüklendi"
 
 echo ""
 echo "Guvenlı Gırıs"
-read -s -p "Proje parolası girin (MYO+202): " Parola
+read -s -p "Proje parolası girin (MYO+202): " PAROLA
 echo ""
-if ["$PAROLA" == "MYO+202"]; then
-echo "Parola onaylandi"
+if [ "$PAROLA" == "MYO+202" ]; then
+echo "PAROLA onaylandi"
 else
 echo "Hata:Yanlış parola girdiniz kapatılıyor"
 exit 1
@@ -43,7 +43,7 @@ fi
 
 echo "Rapor dosyası AES256 ile şifreleniyor"
 gpg --batch --yes --passphrase "$PAROLA" --symmetric --cipher-algo AES256 -o report.log.gpg report.log
-if [-f "report.log.gpg" ]; then
+if [ -f "report.log.gpg" ]; then
 echo "Şifreleme yapıldı Orjinal güvensiz loglar siliniyo"
 rm -f report.log
 echo "MYO202-BASH-PROJECT işlemler tamamlandı"
