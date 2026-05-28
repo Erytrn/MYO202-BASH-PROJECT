@@ -30,3 +30,14 @@ getmac >> $LOG_FILE
 
 echo "Donanım bilgileri yüklendi"
 
+echo ""
+echo "Guvenlı Gırıs"
+read -s -p "Proje parolası girin (MYO+202): " Parola
+echo ""
+if ["$PAROLA" == "MYO+202"]; then
+echo "Parola onaylandi"
+else
+echo "Hata:Yanlış parola girdiniz kapatılıyor"
+exit 1
+fi
+
