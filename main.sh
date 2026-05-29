@@ -13,17 +13,17 @@ echo "Baslangic Zamani: $ISO_TARIH" > $LOG_FILE
 echo "" >> $LOG_FILE
 echo "DONANIM BILGILERI" >> $LOG_FILE
 
-echo "[ CPU ]" >> $LOG_FILE
-wmic cpu get name >> $LOG_FILE
+echo "[ CPU (Islemci Marka ve Model) ]" >> $LOG_FILE
+wmic.exe cpu get name, manufacturer >> $LOG_FILE
 
-echo "[ RAM ]" >> $LOG_FILE
-wmic memorychip get capacity >> $LOG_FILE
+echo "[ RAM ) ]" >> $LOG_FILE
+wmic.exe memorychip get capacity, manufacturer >> $LOG_FILE
 
-echo "[ ANAKART ]" >> $LOG_FILE
-wmic baseboard get product,Manufacturer >> $LOG_FILE
+echo "[ ANAKART (Marka, Model ve Anakart UUID) ]" >> $LOG_FILE
+wmic.exe baseboard get manufacturer, product, serialnumber >> $LOG_FILE
 
-echo "[ Disk Sistem UUID ]" >> $LOG_FILE
-wmic csproduct get uuid >> $LOG_FILE
+echo "[ DISK (Model ve Kapasite) ]" >> $LOG_FILE
+wmic.exe diskdrive get model, size >> $LOG_FILE
 
 echo "[ MAC Adresi ]" >> $LOG_FILE
 getmac >> $LOG_FILE
@@ -35,7 +35,8 @@ echo "GIRIS"
 read -s -p "Proje parolasi girin: " PAROLA
 echo ""
 
-if [ "$PAROLA" == "MYO+202" ]; then
+GIZLI_PAROLA=$(echo "TVlPKzIwMg==" | base64 --decode)
+if [ "$PAROLA" == "$GIZLI_PAROLA" ]; then
 echo "PAROLA onaylandi."
 echo "Rapor dosyasi AES256 sifreleniyor"
     
