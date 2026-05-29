@@ -16,8 +16,8 @@ echo "DONANIM BILGILERI" >> $LOG_FILE
 echo "[ CPU (Islemci Marka ve Model) ]" >> $LOG_FILE
 wmic.exe cpu get name, manufacturer >> $LOG_FILE
 
-echo "[ RAM ) ]" >> $LOG_FILE
-wmic.exe memorychip get capacity, manufacturer >> $LOG_FILE
+echo "[ RAM ]" >> $LOG_FILE
+wmic.exe memorychip get capacity, manufacturer, serialnumber >> $LOG_FILE
 
 echo "[ ANAKART (Marka, Model ve Anakart UUID) ]" >> $LOG_FILE
 wmic.exe baseboard get manufacturer, product, serialnumber >> $LOG_FILE
@@ -26,7 +26,7 @@ echo "[ DISK (Model ve Kapasite) ]" >> $LOG_FILE
 wmic.exe diskdrive get model, size >> $LOG_FILE
 
 echo "[ MAC Adresi ]" >> $LOG_FILE
-getmac >> $LOG_FILE
+getmac.exe >> $LOG_FILE
 
 echo "Donanim bilgileri rapora eklendi"
 
